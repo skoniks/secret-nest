@@ -1,14 +1,14 @@
 import {
+  BadRequestException,
+  Body,
   CACHE_MANAGER,
   Controller,
+  ForbiddenException,
   Get,
   Inject,
   Param,
   Post,
   Put,
-  NotFoundException,
-  ForbiddenException,
-  Body,
 } from '@nestjs/common';
 import { RedisCache } from 'cache-manager-ioredis-yet';
 import { BinaryLike, createHash } from 'crypto';
@@ -26,9 +26,9 @@ export class AppController {
 
   @Get(':id')
   async index(@Param('id') id: string) {
-    if (!validate(id)) throw new NotFoundException();
+    if (!validate(id)) throw new BadRequestException();
     const data = await this.cacheManager.get<string>('secrets:' + id);
-    if (!data) throw new NotFoundException();
+    if (!data) throw new BadRequestException();
     const secret: Secret = JSON.parse(data);
     return {
       expire: new Date(secret.expire),
@@ -38,9 +38,9 @@ export class AppController {
 
   @Post(':id')
   async open(@Param('id') id: string, @Body() { passphrase }: OpenDTO) {
-    if (!validate(id)) throw new NotFoundException();
+    if (!validate(id)) throw new BadRequestException();
     const data = await this.cacheManager.get<string>('secrets:' + id);
-    if (!data) throw new NotFoundException();
+    if (!data) throw new BadRequestException();
     const secret: Secret = JSON.parse(data);
     if (secret.passphrase && this.md5(passphrase || '') !== secret.passphrase)
       throw new ForbiddenException();
