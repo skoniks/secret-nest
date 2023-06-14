@@ -32,7 +32,7 @@ export class ApiService {
     const index = await this.storage.get('index');
     const next = (parseInt(index ?? '') || 0) + 1;
     await this.storage.set('index', next);
-    return next.toString(26);
+    return next.toString(36);
   }
 
   delSecret(id: string): Promise<number> {
