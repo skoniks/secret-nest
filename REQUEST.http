@@ -1,26 +1,28 @@
 @baseUrl = http://localhost:3000
-@id = 999c0982-2b66-4a86-8c59-b84bad58df4f
 
-###
+### @name indexSecret
+# @prompt secretId
+GET {{baseUrl}}/api/{{secretId}}
 
-GET {{baseUrl}}/api/{{id}} HTTP/1.1
-
-###
-
-POST {{baseUrl}}/api/{{id}} HTTP/1.1
+### @name openSecret
+# @prompt secretId
+PATCH {{baseUrl}}/api/{{secretId}}
 Content-Type: application/json
 
 {
-  "passphrase": "foo"
+  "passphrase": "123"
 }
 
-###
-
-PUT {{baseUrl}}/api HTTP/1.1
+### @name storeSecret
+POST {{baseUrl}}/api
 Content-Type: application/json
 
 {
-  "content": "Hello world",
-  "passphrase": "foo",
-  "ttl": 3600
+  "content": "hello world",
+  "type": "text",
+  # "mime": "image/png",
+  # "filename": "file.png",
+  "passphrase": "test",
+  "short": true,
+  "ttl": 300
 }
