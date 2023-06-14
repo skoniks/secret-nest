@@ -20,7 +20,7 @@ export class StorageService {
   }
 
   expire(key: string, time: number): Promise<number> {
-    return this.client.expire(key, time, 'NX');
+    return this.client.expire(key, time);
   }
 
   del(...keys: string[]): Promise<number> {
