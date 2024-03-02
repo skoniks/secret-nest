@@ -1,7 +1,7 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import { RedisCache } from 'cache-manager-ioredis-yet';
-import Redis, { Cluster } from 'ioredis';
+import { Cluster, Redis } from 'ioredis';
 
 @Injectable()
 export class StorageService {
